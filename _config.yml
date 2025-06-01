@@ -109,4 +109,3 @@ deploy:
   type: git
   repo: https://github.com/Yuzgaf33tref6/Yuzgaf33tref6.github.io.git
   branch: main
-  token: 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
