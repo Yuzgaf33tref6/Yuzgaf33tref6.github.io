@@ -108,4 +108,4 @@ language: zh-CN  # 指定语言，会影响主题显示的语言，按需修改
 deploy:
   type: git
   repo: https://github.com/Yuzgaf33tref6/Yuzgaf33tref6.github.io.git
-  branch: gh-pages
+  branch: main

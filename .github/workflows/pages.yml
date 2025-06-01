@@ -1,0 +1,78 @@
+name: GitHub Pages Deployment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      pages: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # 1. 代码检出（启用子模块）
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      # 2. Node.js环境配置
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      # 3. 依赖缓存（优化构建速度）
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+
+      # 4. 安装依赖
+      - name: Install Dependencies
+        run: npm ci --prefer-offline
+
+      # 5. Hexo环境配置（解决权限问题）
+      - name: Configure Hexo Environment
+        run: |
+          export PATH="$PATH:$PWD/node_modules/.bin"
+          npm install hexo-cli -g
+
+      # 6. 构建生成（强制刷新缓存）
+      - name: Generate Site
+        run: |
+          hexo clean
+          hexo generate --force
+
+      # 7. 部署准备（验证输出）
+      - name: Verify Build Output
+        run: |
+          ls -la ./public
+          echo "Generated files:"
+          find ./public -type f | head -n 10
+
+      # 8. 上传构建产物（必须包含public目录）
+      - name: Upload Build Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+          retention-days: 7
+
+      # 9. 部署到GitHub Pages（核心步骤）
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
