@@ -679,7 +679,7 @@ post:
 
     # 显示作者
     author:
-      enable: true
+      enable: false
 
     # 显示发布日期
     # Show post date
