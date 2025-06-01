@@ -1,4 +1,11 @@
 # Yuzgaf33tref6.github.io
+---
+![Static Badge](https://img.shields.io/badge/My%20Blog-8A2BE2?style=for-the-badge)
+---
+![Node.js](https://img.shields.io/badge/Node.js->=16,ok=22-red)
+![hexo](https://img.shields.io/badge/hexo-/-blue)
+![fluid](https://img.shields.io/badge/fluid-v%1.9.8-green)
+[![GPLv3 License](https://img.shields.io/badge/license-GPLv3-red.svg)](LICENSE)
 # 在这里提一个天坑！！！！！！！
 如果不是用jekyll创建的，tmd得自己创建一个.nojekyll才能让死脑子actions不自动费劲脑力构建jekyll主题
 ---
